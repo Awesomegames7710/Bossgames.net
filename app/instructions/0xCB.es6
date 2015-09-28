@@ -7,7 +7,8 @@ module.exports = class xCB extends Instruction {
   annotation_components()   { return ["*er*"]; }
 
   execute(cpu, memory) {
-    if(memory.readIndexed(cpu.registerPC()+1) == 0x7C) {
+    let cb_code = memory.readIndexed(cpu.registerPC()+1);
+    if(cb_code == 0x7C) {
       if((0b10000000 & cpu.registerH()) != 0b10000000) {
           // console.log("setting zero flag, pc:", cpu.registerPC(), "hl:", cpu.registerHL());
           cpu.setZeroFlag();
@@ -16,6 +17,29 @@ module.exports = class xCB extends Instruction {
       }
       cpu.resetSubtractFlag();
       cpu.setHalfCarryFlag();
+    } else if(cb_code == 0x11) {
+      let oldC = cpu.carryFlag();
+      let val = cpu.registerC();
+      let newC = val >> 7;
+      let res = 0b01111111 & (val << 1) & oldC;
+
+      if (newC) {
+        cpu.setCarryFlag();
+      } else {
+        cpu.resetCarryFlag();
+      }
+      if (res) {
+        cpu.resetZeroFlag();
+      } else {
+        cpu.setZeroFlag();
+      }
+
+      cpu.setRegisterC(res);
+
+      // console.log("done 0xCB 0x11 : rl c")
+
+    } else {
+      throw "unimplemented bit (0xCB) instruction";
     }
   }
 }

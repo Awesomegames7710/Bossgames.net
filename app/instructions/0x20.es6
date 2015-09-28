@@ -1,4 +1,5 @@
 let Instruction = require('instruction');
+let Util        = require('util');
 
 module.exports = class x20 extends Instruction {
   size()                    { return 2; }

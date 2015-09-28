@@ -21,7 +21,9 @@ class Register {
 
   get()  { return this._value; }
   set(v) {
-    if(this.sixteen) { Assertions.expect(v >= 0x00 && v <= 0xFFFF); }
+    if(v < 0x00) v += 0xFF;
+
+    if(this.sixteen) { Assertions.expect(v >= 0x00 && v <= 0xFFFF, v); }
     else { Assertions.expect(v >= 0x00 && v <= 0xFF); }
 
     this._value = v;
@@ -92,7 +94,7 @@ class CPU {
   registerSP() { return this.registers['SP'].get() }
 
   setRegisterPC(v) { this.registers['PC'].set(v); }
-  setRegisterSP(v) { this.registers['SP'].set(v); }
+  setRegisterSP(v) { console.log("SP:", v); this.registers['SP'].set(v); }
 
   updateRegister(name, val) {
     this.registers[name].set(val);
@@ -135,6 +137,10 @@ class CPU {
     this.setRegisterF(0b11011111 & this.registerF());
   }
 
+  carryFlag() {
+    return ((this.registerF() & 0b00010000) == 0b00010000);
+  }
+
   setCarryFlag() {
     this.setRegisterF(0b00010000 | this.registerF());
   }
@@ -154,7 +160,7 @@ class CPU {
     let opcode = this.gameboy.memory.readIndexed(this.registerPC());
     let currentInstruction = this.instructionTable.fetch(opcode)
 
-    // console.log(currentInstruction.annotate(this, this.gameboy.memory));
+    // console.log(`${Util.hex(this.registerPC())}: ${currentInstruction.annotate(this, this.gameboy.memory)}`);
 
     currentInstruction.execute(this, this.gameboy.memory);
 

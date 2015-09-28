@@ -23,9 +23,10 @@ module.exports = {
     } while (!frameRE.exec(frame) && stack.length);
     return frameRE.exec(stack.shift())[1];
   },
-  expect(condition) {
+  expect(condition, v) {
+    let vv = (v === undefined) ? "?" : v;
     if(!condition) {
-      throw new ConditionError(`Unmet condition, line ${this.assert_location()} of app.js`);
+      throw new ConditionError(`Unmet condition, line ${this.assert_location()} of app.js, value was: ${vv}`);
     }
   }
 };

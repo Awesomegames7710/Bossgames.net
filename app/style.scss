@@ -101,6 +101,9 @@ html, body {
     & > div {
 
       & > span {
+        &.active {
+          background: red;
+        }
       }
 
       &:nth-child(2n) {
