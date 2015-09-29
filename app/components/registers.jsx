@@ -19,7 +19,7 @@ let Registers = React.createClass({
     let rows = [];
 
     for(let r of regs) {
-      rows.push(<li key={r}><b>{r}</b>{Util.hex(this.props.cpu[`register${r}`]())}</li>);
+      rows.push(<li key={r}><b>{r}</b>&nbsp;{Util.hex(this.props.cpu[`register${r}`]())}</li>);
     }
 
     return (

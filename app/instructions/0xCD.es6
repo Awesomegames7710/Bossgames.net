@@ -8,9 +8,8 @@ module.exports = class xCD extends Instruction {
   annotation_components()   { return ["d16"]; }
 
   execute(cpu, memory) {
-    let stackLocation = cpu.registerSP();
-    cpu.setRegisterSP(stackLocation - 2);
-    memory.writeDword(stackLocation - 2, cpu.registerPC() + 3);
-    cpu.setRegisterPC(memory.readDword(cpu.registerPC()+1)-3);
+    memory.stackPush(cpu.registerPC()+3);
+
+    cpu.setRegisterPC(memory.readDword(cpu.registerPC()+1));
   }
 }

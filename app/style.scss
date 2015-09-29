@@ -69,7 +69,7 @@ html, body {
 }
 
 #player {
-  width: calc(100% - #{$reg_width} - 350px);
+  width: calc(100% - #{$reg_width} - 370px);
   height: 576px;
 }
 
@@ -89,13 +89,12 @@ html, body {
 #memory {
   background: #111;
   color: #eee;
-  width: calc((100% - 640px - #{$reg_width});
   overflow-y: scroll;
 
   font-size: 9pt;
 
   cursor: default;
-  width: 350px;
+  width: 370px;
 
   & > div {
     & > div {

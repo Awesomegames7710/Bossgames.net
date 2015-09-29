@@ -98,8 +98,8 @@ class Memory {
   }
 
   readDword(index) {
-    let lo = this.readIndexed(index);
-    let hi = this.readIndexed(index+1);
+    let lo = this.readIndexed(index+1);
+    let hi = this.readIndexed(index+0);
 
     return Util.dword(hi, lo);
   }
@@ -108,8 +108,30 @@ class Memory {
     let lo = Util.lowByte(value);
     let hi = Util.highByte(value);
 
-    this.writeIndexed(index,  lo);
     this.writeIndexed(index+1, lo);
+    this.writeIndexed(index+0, hi);
+  }
+
+  printStack() {
+    let stackMessage = "";
+    for(let i = 0xFFFE; i >= this.gameboy.cpu.registerSP(); i -= 2) {
+      stackMessage += `${Util.dhex(this.readDword(i))} `;
+    }
+    console.log(`stack: ${stackMessage}`);
+  }
+
+  stackPush(value) {
+    Assertions.expect(value >= 0x00 && value <= 0xFFFF);
+
+    this.writeDword(this.gameboy.cpu.registerSP(), value);
+    this.gameboy.cpu.setRegisterSP(this.gameboy.cpu.registerSP()-2);
+  }
+
+  stackPop() {
+    let val = this.readDword(this.gameboy.cpu.registerSP());
+    this.gameboy.cpu.setRegisterSP(this.gameboy.cpu.registerSP()+2);
+
+    return val;
   }
 }
 

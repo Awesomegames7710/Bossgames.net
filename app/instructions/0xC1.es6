@@ -1,4 +1,5 @@
 let Instruction = require('instruction');
+let Util        = require('util');
 
 module.exports = class xCD extends Instruction {
   size()                    { return 1; }
@@ -7,8 +8,6 @@ module.exports = class xCD extends Instruction {
   annotation_components()   { return ["BC"]; }
 
   execute(cpu, memory) {
-    let stackLocation = cpu.registerSP();
-    cpu.setRegisterSP(stackLocation + 2);
-    cpu.setRegisterBC(memory.readDword(stackLocation));
+    cpu.setRegisterBC(memory.stackPop());
   }
 }

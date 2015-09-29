@@ -94,7 +94,7 @@ class CPU {
   registerSP() { return this.registers['SP'].get() }
 
   setRegisterPC(v) { this.registers['PC'].set(v); }
-  setRegisterSP(v) { console.log("SP:", v); this.registers['SP'].set(v); }
+  setRegisterSP(v) { this.registers['SP'].set(v); }
 
   updateRegister(name, val) {
     this.registers[name].set(val);
@@ -160,7 +160,7 @@ class CPU {
     let opcode = this.gameboy.memory.readIndexed(this.registerPC());
     let currentInstruction = this.instructionTable.fetch(opcode)
 
-    // console.log(`${Util.hex(this.registerPC())}: ${currentInstruction.annotate(this, this.gameboy.memory)}`);
+    console.log(`${Util.hex(this.registerPC())}: ${currentInstruction.annotate(this, this.gameboy.memory)}`);
 
     currentInstruction.execute(this, this.gameboy.memory);
 
