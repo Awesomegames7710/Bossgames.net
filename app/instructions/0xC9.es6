@@ -8,6 +8,6 @@ module.exports = class xC9 extends Instruction {
   annotation_components()   { return []; }
 
   execute(cpu, memory) {
-    cpu.setRegisterPC(memory.stackPop());
+    cpu.setRegisterPC(memory.stackPop()-this.size());
   }
 }

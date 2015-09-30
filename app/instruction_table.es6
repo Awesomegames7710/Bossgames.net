@@ -26,7 +26,7 @@ class InstructionTable {
 
   fetch(index) {
     if(this.instructions[index] === undefined) throw `no class for: ${Util.hex(index)}`;
-
+    if(this.instructions[index] === null) throw `abc`;
     return this.instructions[index];
   }
 }

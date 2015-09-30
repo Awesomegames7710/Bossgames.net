@@ -13,7 +13,7 @@ class Instruction {
     let annotation = `${this.name()} `;
     for(let item of this.annotation_components()) {
       if(item == "d16") {
-        annotation += Util.hex(memory.readDword(cpu.registerPC()+1));
+        annotation += Util.dhex(memory.readDword(cpu.registerPC()+1));
       } else if(item == "r8") {
         annotation += Util.hex(memory.readIndexed(cpu.registerPC()+1));
       } else {

@@ -98,8 +98,8 @@ class Memory {
   }
 
   readDword(index) {
-    let lo = this.readIndexed(index+1);
-    let hi = this.readIndexed(index+0);
+    let lo = this.readIndexed(index+0);
+    let hi = this.readIndexed(index+1);
 
     return Util.dword(hi, lo);
   }
@@ -123,13 +123,20 @@ class Memory {
   stackPush(value) {
     Assertions.expect(value >= 0x00 && value <= 0xFFFF);
 
-    this.writeDword(this.gameboy.cpu.registerSP(), value);
+    console.log(`Pushing: ${value}`);
+
     this.gameboy.cpu.setRegisterSP(this.gameboy.cpu.registerSP()-2);
+    this.writeDword(this.gameboy.cpu.registerSP(), value);
+
+
+    this.printStack();
   }
 
   stackPop() {
     let val = this.readDword(this.gameboy.cpu.registerSP());
     this.gameboy.cpu.setRegisterSP(this.gameboy.cpu.registerSP()+2);
+
+    console.log(`Pop returned: ${Util.dhex(val)}`)
 
     return val;
   }

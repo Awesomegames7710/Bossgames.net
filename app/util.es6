@@ -19,11 +19,11 @@ class Util {
   }
 
   highByte(dword) {
-    return (dword & 0xFF00) >> 8;
+    return (dword & 0x00FF);
   }
 
   lowByte(dword) {
-    return (dword & 0x00FF);
+    return (dword & 0xFF00) >> 8;
   }
 }
 
