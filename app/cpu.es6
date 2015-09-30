@@ -150,10 +150,23 @@ class CPU {
   }
 
   run() {
+    if(this.registerPC() == 0x55) {
+      throw `We've made it 0x55!`;
+    }
+
     this.running = true;
 
-    while(this.running)
-      this.step();
+    try {
+      while(this.running)
+        this.step();
+    } catch(e) {
+      this.pause();
+      throw e;
+    }
+  }
+
+  pause() {
+    this.running = false;
   }
 
   step() {
